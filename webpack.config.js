@@ -9,15 +9,17 @@ module.exports = {
     "js/app": ["./src/App.jsx"],
   },
   output: {
-    path: path.resolve(__dirname, "docs/"),
-    publicPath: "/",
+    path: path.resolve(__dirname, "docs"), // './dist'의 절대 경로를 리턴합니다.
+    filename: "App.js",
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        use: ["babel-loader"],
-        exclude: /node_modules/,
+        test: /\.jsx?/,
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env", "@babel/preset-react"],
+        },
       },
       {
         test: /\.css$/,
@@ -27,8 +29,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
-      filename: "index.html",
+      template: path.resolve(__dirname, "src", "index.html"),
     }),
     new MiniCssExtractPlugin({
       filename: "common.css",
